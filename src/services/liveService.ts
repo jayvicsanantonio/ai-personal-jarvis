@@ -259,8 +259,10 @@ export class LiveService {
 
     this.inputSource =
       this.inputAudioContext.createMediaStreamSource(stream);
+    // Using 2048 buffer size for lower latency (~128ms at 16kHz)
+    // Smaller = more responsive but more CPU usage
     this.processor = this.inputAudioContext.createScriptProcessor(
-      4096,
+      2048,
       1,
       1
     );
@@ -473,10 +475,10 @@ export class LiveService {
     const audioData =
       serverContent?.modelTurn?.parts?.[0]?.inlineData?.data;
     if (audioData && this.outputAudioContext) {
-      this.nextStartTime = Math.max(
-        this.nextStartTime,
-        this.outputAudioContext.currentTime
-      );
+      // Start audio with minimal delay (0.01s) to prevent gaps while keeping low latency
+      const minStartTime = this.outputAudioContext.currentTime + 0.01;
+      this.nextStartTime = Math.max(this.nextStartTime, minStartTime);
+
       const pcmBytes = base64ToUint8Array(audioData);
       const audioBuffer = await pcm16ToAudioBuffer(
         pcmBytes,

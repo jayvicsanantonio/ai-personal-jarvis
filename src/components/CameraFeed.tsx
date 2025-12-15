@@ -59,14 +59,15 @@ const CameraFeed: React.FC<CameraFeedProps> = ({
           }
         }
 
-        // Start frame capture loop (2 FPS for better responsiveness)
+        // Start frame capture loop (1 FPS to prioritize audio responsiveness)
+        // Lower frame rate = less bandwidth, more responsive voice
         // Only capture frames when active (connected to Jarvis)
         interval = window.setInterval(() => {
           if (!mounted) return;
           if (active) {
             captureFrame();
           }
-        }, 500);
+        }, 1000);
       } catch (err) {
         if (mounted) {
           console.error('Camera access failed', err);
