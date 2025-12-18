@@ -169,7 +169,12 @@ export class LiveService {
             );
           },
           onmessage: (msg: LiveServerMessage) => {
-            console.log('[Jarvis] Message received:', msg);
+            if (
+              !(msg as any).serverContent?.modelTurn?.parts?.[0]
+                ?.inlineData?.data
+            ) {
+              console.log('[Jarvis] Control message received:', msg);
+            }
             this.handleMessage(
               msg,
               sessionPromise as Promise<LiveSession>
@@ -202,6 +207,11 @@ export class LiveService {
               ],
             },
           ],
+          realtimeInputConfig: {
+            automaticActivityDetection: {
+              silenceDurationMs: 500,
+            },
+          },
         },
       });
 
@@ -259,10 +269,10 @@ export class LiveService {
 
     this.inputSource =
       this.inputAudioContext.createMediaStreamSource(stream);
-    // Using 2048 buffer size for lower latency (~128ms at 16kHz)
+    // Using 1024 buffer size for lower latency (~64ms at 16kHz)
     // Smaller = more responsive but more CPU usage
     this.processor = this.inputAudioContext.createScriptProcessor(
-      2048,
+      1024,
       1,
       1
     );
@@ -285,6 +295,7 @@ export class LiveService {
       if (this.isConnected) {
         sessionPromise.then((session) => {
           try {
+            // console.log('[Jarvis] Sending audio chunk...'); // Too verbose for every chunk
             session.sendRealtimeInput({
               media: {
                 mimeType: 'audio/pcm;rate=16000',
