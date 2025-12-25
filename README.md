@@ -1,7 +1,7 @@
 # Jarvis - AI Personal Assistant
 
 <div align="center">
-  <h3>🤖 A Real-Time Multimodal AI Assistant</h3>
+  <h3> A Real-Time Multimodal AI Assistant</h3>
   <p>Built with React, TypeScript, and the Google Gemini Live API</p>
 </div>
 
@@ -9,10 +9,10 @@
 
 Jarvis is a real-time, multimodal AI assistant inspired by the iconic J.A.R.V.I.S. from Marvel. It integrates live audio and video streaming with advanced AI capabilities, including:
 
-- **🎙️ Real-time Voice Conversation** - Natural back-and-forth dialogue
-- **🔍 Internet Search** - Grounded responses with Google Search
-- **🎨 Image Generation** - Create illustrations from descriptions
-- **📸 Image Reimagination** - Transform webcam photos with AI
+- **️ Real-time Voice Conversation** - Natural back-and-forth dialogue
+- ** Internet Search** - Grounded responses with Google Search
+- ** Image Generation** - Create illustrations from descriptions
+- ** Image Reimagination** - Transform webcam photos with AI
 
 ## Tech Stack
 
